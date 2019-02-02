@@ -34,13 +34,9 @@ ipcMain.on('duplicate-file', function (event, arg) {
     });
   }
 
-  event.sender.send('asynchronous-reply', 'async-pong');
+  event.sender.send('duplicate-file-reply', 'Generation successful.');
 });
 
-ipcMain.on('synchronous-message', function (event, arg) {
-  console.debug('ipc.sync', arg);
-  event.returnValue = 'sync-pong';
-});
 
 function createWindow() {
 

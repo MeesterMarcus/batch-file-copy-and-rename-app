@@ -1,5 +1,6 @@
 import {Component, NgZone, OnInit} from '@angular/core';
 import {ElectronService} from 'ngx-electron';
+import {MatSnackBar} from '@angular/material';
 
 @Component({
   selector: 'app-home',
@@ -8,9 +9,19 @@ import {ElectronService} from 'ngx-electron';
 })
 export class HomeComponent implements OnInit {
   adZones: string;
+  message: string;
 
-  constructor(private _electronService: ElectronService, private _ngZone: NgZone) {
-
+  constructor(private _electronService: ElectronService, private _ngZone: NgZone, private snackBar: MatSnackBar) {
+    this._electronService.ipcRenderer.on('duplicate-file-reply', (event, arg) => {
+      this._ngZone.run(() => {
+        this.message = arg;
+        console.log(this.message);
+        this.adZones = '';
+        this.snackBar.open(this.message, 'OK', {
+          duration: 2000,
+        });
+      });
+    });
   }
 
   ngOnInit() {
