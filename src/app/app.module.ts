@@ -17,6 +17,9 @@ import { WebviewDirective } from './directives/webview.directive';
 import { AppComponent } from './app.component';
 import { HomeComponent } from './components/home/home.component';
 import {NgxElectronModule} from 'ngx-electron';
+import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
+import {MyOwnCustomMaterialModule} from './material.module';
+
 
 // AoT requires an exported function for factories
 export function HttpLoaderFactory(http: HttpClient) {
@@ -30,6 +33,8 @@ export function HttpLoaderFactory(http: HttpClient) {
     WebviewDirective
   ],
   imports: [
+    BrowserAnimationsModule,
+    MyOwnCustomMaterialModule,
     NgxElectronModule,
     BrowserModule,
     FormsModule,

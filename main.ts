@@ -20,9 +20,9 @@ ipcMain.on('duplicate-file', function (event, arg) {
 
   const fileArray = dialog.showOpenDialog({properties: ['openFile']});
   const file = fileArray[0];
-  const origFileName = path.basename(file).replace('.txt','')
+  const origFileName = path.basename(file).replace('.txt', '');
   for (const adZone of argArray) {
-    const newFileName = origFileName + adZone + '.txt'
+    const newFileName = origFileName + adZone + '.txt';
     fs.copyFile(file, newFileName, (err) => {
       if (err) {
         throw err;
@@ -49,8 +49,8 @@ function createWindow() {
   win = new BrowserWindow({
     x: 0,
     y: 0,
-    width: size.width,
-    height: size.height
+    width: size.width / 2,
+    height: size.height / 2
   });
 
   if (serve) {

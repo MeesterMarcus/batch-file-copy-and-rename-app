@@ -1,8 +1,13 @@
+<mat-toolbar color="primary">Weekly Ad Page Generator</mat-toolbar>
 <div class="container">
-  <h1 class="title">
-    <label>Enter Adzones Comma Delimited:</label>
-    <input type="text" [(ngModel)]="adZones">
+
+  <h3>
+    <mat-form-field class="example-full-width">
+      <input matInput placeholder="Enter Adzones Comma Delimited:" [(ngModel)]="adZones">
+    </mat-form-field>
     <br>
-    <button (click)="selectFile()">Select File</button>
-  </h1>
+    <button mat-raised-button color="primary" (click)="selectFile()" [disabled]="!adZones">Select File</button>
+  </h3>
+
+
 </div>
