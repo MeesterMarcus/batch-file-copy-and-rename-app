@@ -7,3 +7,19 @@
 
   height: 100%;
 }
+
+.success-dialog {
+  color: #155724 !important;
+  background-color: #D4EDDA !important;
+  .mat-simple-snackbar-action {
+    color: #155724 !important;
+  }
+}
+
+.error-dialog {
+  color: #721C24 !important;
+  background-color: #F8D7DA !important;
+  .mat-simple-snackbar-action {
+    color: #721C24 !important;
+  }
+}

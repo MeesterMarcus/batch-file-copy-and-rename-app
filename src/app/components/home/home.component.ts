@@ -12,13 +12,26 @@ export class HomeComponent implements OnInit {
   message: string;
 
   constructor(private _electronService: ElectronService, private _ngZone: NgZone, private snackBar: MatSnackBar) {
-    this._electronService.ipcRenderer.on('duplicate-file-reply', (event, arg) => {
+    this._electronService.ipcRenderer.on('duplicate-file-success', (event, arg) => {
       this._ngZone.run(() => {
         this.message = arg;
         console.log(this.message);
         this.adZones = '';
         this.snackBar.open(this.message, 'OK', {
           duration: 2000,
+          panelClass: ['success-dialog']
+        });
+      });
+    });
+
+    this._electronService.ipcRenderer.on('duplicate-file-error', (event, arg) => {
+      this._ngZone.run(() => {
+        this.message = arg;
+        console.log(this.message);
+        this.adZones = '';
+        this.snackBar.open(this.message, 'OK', {
+          duration: 2000,
+          panelClass: ['error-dialog']
         });
       });
     });

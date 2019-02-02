@@ -12,29 +12,32 @@ serve = args.some(val => val === '--serve');
 
 // ipc functions to communicate with Angular
 ipcMain.on('duplicate-file', function (event, arg) {
-  const destinationDirectory = require('path').join(require('os').homedir(), 'Desktop') + '\\GeneratedAdPages';
-  if (!fs.existsSync(destinationDirectory)) {
-    fs.mkdirSync(destinationDirectory);
-  }
-  console.debug('inside duplicate-file ipc');
-  const argArray = arg.split(',');
+  try {
+    const destinationDirectory = require('path').join(require('os').homedir(), 'Desktop') + '\\GeneratedAdPages';
+    if (!fs.existsSync(destinationDirectory)) {
+      fs.mkdirSync(destinationDirectory);
+    }
+    console.debug('inside duplicate-file ipc');
+    const argArray = arg.split(',');
 
-  const fileArray = dialog.showOpenDialog({properties: ['openFile']});
-  const file = fileArray[0];
-  let origFileName = path.basename(file);
-  const ext = path.extname(origFileName);
-  origFileName = origFileName.replace(ext,'');
-  for (const adZone of argArray) {
-    const newFileName = destinationDirectory + '\\' + origFileName + adZone + ext;
-    fs.copyFile(file, newFileName, (err) => {
-      if (err) {
-        throw err;
-      }
-      console.debug(origFileName + ' was copied to ' + newFileName);
-    });
+    const fileArray = dialog.showOpenDialog({properties: ['openFile']});
+    const file = fileArray[0];
+    let origFileName = path.basename(file);
+    const ext = path.extname(origFileName);
+    origFileName = origFileName.replace(ext,'');
+    for (const adZone of argArray) {
+      const newFileName = destinationDirectory + '\\' + origFileName + adZone + ext;
+      fs.copyFile(file, newFileName, (err) => {
+        if (err) {
+          throw err;
+        }
+        console.debug(origFileName + ' was copied to ' + newFileName);
+      });
+    }
+  } catch (e) {
+    event.sender.send('duplicate-file-error', 'An error occurred during file generation');
   }
-
-  event.sender.send('duplicate-file-reply', 'Generation successful.');
+  event.sender.send('duplicate-file-success', 'Generation successful.');
 });
 
 
