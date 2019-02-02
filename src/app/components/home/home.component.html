@@ -1,6 +1,5 @@
-<mat-toolbar color="primary">Weekly Ad Page Generator</mat-toolbar>
 <div class="container">
-
+  <h4 style="color:red">**Please ensure input is correct prior to selecting file**</h4>
   <h3>
     <mat-form-field class="example-full-width">
       <input matInput placeholder="Enter Adzones Associated With Page (Comma Delimited):" [(ngModel)]="adZones">
@@ -8,6 +7,4 @@
     <br>
     <button mat-raised-button color="primary" (click)="selectFile()" [disabled]="!adZones">Select File</button>
   </h3>
-
-
 </div>
