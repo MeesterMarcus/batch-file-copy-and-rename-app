@@ -2,18 +2,14 @@ import {app, BrowserWindow, screen} from 'electron';
 import * as path from 'path';
 import * as url from 'url';
 import {dialog} from 'electron';
-
 const fs = require('fs'); // Load the File System to execute our common tasks (CRUD)
-
-const
-  electron = require('electron'),
-  ipcMain = electron.ipcMain
-;
+const electron = require('electron'), ipcMain = electron.ipcMain;
 
 let win, serve;
 const args = process.argv.slice(1);
 serve = args.some(val => val === '--serve');
 
+// ipc functions to communicate with Angular
 ipcMain.on('duplicate-file', function (event, arg) {
   console.debug('inside duplicate-file ipc');
   const argArray = arg.split(',');
