@@ -2,6 +2,7 @@ import {app, BrowserWindow, screen} from 'electron';
 import * as path from 'path';
 import * as url from 'url';
 import {dialog} from 'electron';
+
 const fs = require('fs'); // Load the File System to execute our common tasks (CRUD)
 const electron = require('electron'), ipcMain = electron.ipcMain;
 
@@ -20,9 +21,11 @@ ipcMain.on('duplicate-file', function (event, arg) {
 
   const fileArray = dialog.showOpenDialog({properties: ['openFile']});
   const file = fileArray[0];
-  const origFileName = path.basename(file).replace('.txt', '');
+  let origFileName = path.basename(file);
+  const ext = path.extname(origFileName);
+  origFileName = origFileName.replace(ext,'');
   for (const adZone of argArray) {
-    const newFileName = destinationDirectory + '\\' + origFileName + adZone + '.txt';
+    const newFileName = destinationDirectory + '\\' + origFileName + adZone + ext;
     fs.copyFile(file, newFileName, (err) => {
       if (err) {
         throw err;
@@ -65,8 +68,6 @@ function createWindow() {
       slashes: true
     }));
   }
-
-  win.webContents.openDevTools();
 
   // Emitted when the window is closed.
   win.on('closed', () => {
