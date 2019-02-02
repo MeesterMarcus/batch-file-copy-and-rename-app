@@ -11,6 +11,10 @@ serve = args.some(val => val === '--serve');
 
 // ipc functions to communicate with Angular
 ipcMain.on('duplicate-file', function (event, arg) {
+  const destinationDirectory = require('path').join(require('os').homedir(), 'Desktop') + '\\GeneratedAdPages';
+  if (!fs.existsSync(destinationDirectory)) {
+    fs.mkdirSync(destinationDirectory);
+  }
   console.debug('inside duplicate-file ipc');
   const argArray = arg.split(',');
 
@@ -18,7 +22,7 @@ ipcMain.on('duplicate-file', function (event, arg) {
   const file = fileArray[0];
   const origFileName = path.basename(file).replace('.txt', '');
   for (const adZone of argArray) {
-    const newFileName = origFileName + adZone + '.txt';
+    const newFileName = destinationDirectory + '\\' + origFileName + adZone + '.txt';
     fs.copyFile(file, newFileName, (err) => {
       if (err) {
         throw err;
@@ -45,7 +49,7 @@ function createWindow() {
   win = new BrowserWindow({
     x: 0,
     y: 0,
-    width: size.width / 2,
+    width: size.width / 3,
     height: size.height / 2
   });
 
