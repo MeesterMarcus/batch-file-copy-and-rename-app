@@ -13,7 +13,7 @@ serve = args.some(val => val === '--serve');
 // ipc functions to communicate with Angular
 ipcMain.on('duplicate-file', function (event, arg) {
   try {
-    const destinationDirectory = require('path').join(require('os').homedir(), 'Desktop') + '\\GeneratedAdPages';
+    const destinationDirectory = require('path').join(require('os').homedir(), 'Desktop', 'GeneratedAdPages');
     if (!fs.existsSync(destinationDirectory)) {
       fs.mkdirSync(destinationDirectory);
     }
@@ -25,8 +25,14 @@ ipcMain.on('duplicate-file', function (event, arg) {
     let origFileName = path.basename(file);
     const ext = path.extname(origFileName);
     origFileName = origFileName.replace(ext,'');
+    const platform = require('os').platform();
     for (const adZone of argArray) {
-      const newFileName = destinationDirectory + '\\' + origFileName + adZone + ext;
+      let slashType = '\\';
+      if (platform === 'darwin') {
+        slashType = '/';
+      }
+      const newFileName = destinationDirectory + slashType + origFileName + adZone + ext;
+      console.debug('newfileName: ' + newFileName);
       fs.copyFile(file, newFileName, (err) => {
         if (err) {
           throw err;
